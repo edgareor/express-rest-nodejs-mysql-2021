@@ -1,11 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+const { db } = require('../db/connection');
 
 class Server {
     constructor() {
         this.app = express();
+        this.dbConnection();
         this.middlewares();
         this.routes();
+    }
+
+    async dbConnection() {
+        try {
+            await db.authenticate();
+            console.log('Connection BD Successfully');
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 
     middlewares() {
